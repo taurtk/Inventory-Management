@@ -1,0 +1,67 @@
+{% extends 'inventory/base.html' %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-md">
+    <h2 class="text-2xl font-bold mb-6">Add Supplier</h2>
+    
+    <form method="post" class="space-y-6">
+        {% csrf_token %}
+        
+        <!-- Name Field -->
+        <div>
+            <label for="{{ form.name.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                Name
+            </label>
+            {{ form.name }}
+            {% if form.name.errors %}
+            <p class="text-red-500 text-xs mt-1">{{ form.name.errors.0 }}</p>
+            {% endif %}
+        </div>
+
+        <!-- Email Field -->
+        <div>
+            <label for="{{ form.email.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                Email
+            </label>
+            {{ form.email }}
+            {% if form.email.errors %}
+            <p class="text-red-500 text-xs mt-1">{{ form.email.errors.0 }}</p>
+            {% endif %}
+        </div>
+
+        <!-- Phone Field -->
+        <div>
+            <label for="{{ form.phone.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                Phone
+            </label>
+            {{ form.phone }}
+            {% if form.phone.errors %}
+            <p class="text-red-500 text-xs mt-1">{{ form.phone.errors.0 }}</p>
+            {% endif %}
+        </div>
+
+        <!-- Address Field -->
+        <div>
+            <label for="{{ form.address.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                Address
+            </label>
+            {{ form.address }}
+            {% if form.address.errors %}
+            <p class="text-red-500 text-xs mt-1">{{ form.address.errors.0 }}</p>
+            {% endif %}
+        </div>
+
+        <!-- Submit Button -->
+        <div class="flex justify-end space-x-4">
+            <a href="{% url 'inventory:supplier_list' %}" 
+               class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
+                Cancel
+            </a>
+            <button type="submit" 
+                    class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                Add Supplier
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

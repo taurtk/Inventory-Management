@@ -1,0 +1,64 @@
+{% extends 'inventory/base.html' %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto bg-white p-8 rounded-lg shadow-md">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold">Stock Movements</h2>
+        <div class="space-x-4">
+            <a href="{% url 'inventory:add_stock_movement' %}" 
+               class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                Add Stock Movement
+            </a>
+            <a href="{% url 'inventory:stock_levels' %}"
+               class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+                Check Stock Levels
+            </a>
+        </div>
+    </div>
+
+    {% if messages %}
+    <div class="mb-4">
+        {% for message in messages %}
+        <div class="p-4 rounded {% if message.tags == 'success' %}bg-green-100 text-green-700{% elif message.tags == 'error' %}bg-red-100 text-red-700{% endif %}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if movements %}
+    <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Notes</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                {% for movement in movements %}
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">{{ movement.movement_date }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">{{ movement.product.name }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                            {% if movement.movement_type == 'IN' %}bg-green-100 text-green-800
+                            {% else %}bg-red-100 text-red-800{% endif %}">
+                            {{ movement.movement_type }}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">{{ movement.quantity }}</td>
+                    <td class="px-6 py-4">{{ movement.notes|default:"-" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p class="text-gray-500 text-center py-4">No stock movements found.</p>
+    {% endif %}
+</div>
+{% endblock %}
